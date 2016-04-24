@@ -9,9 +9,8 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
-  api.use('es5-shim');
   api.use('ecmascript');
-  api.use('pushplaybang:common-polyfills');
+  api.use('pushplaybang:common-polyfills@0.0.1');
   api.addFiles('swipeout.js', 'client');
   api.export('SwipeOut', 'client');
 });
