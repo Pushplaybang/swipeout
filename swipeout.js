@@ -1,7 +1,9 @@
 /*
+
   Constructor Function for Applying gestures to a panel
   and moving it in a single direction horizontally,
   out of view.
+
  */
 
 SwipeOut = function(options) {
@@ -18,7 +20,7 @@ SwipeOut = function(options) {
 
   // manage state
   this.touchStartPositionX = 0;
-  this.touchEndtPosition = 0;
+  this.touchEndtPositionX = 0;
   this.translateX = 0;
   this.sliding = false;
   this.canUpdate = false;
@@ -31,7 +33,6 @@ SwipeOut = function(options) {
   this.velocity = 0;
   this.elWidth = 0;
 };
-
 
 
 /*
@@ -64,7 +65,6 @@ SwipeOut.prototype.resetState = function() {
 };
 
 
-
 /*
 
   ANIMATION
@@ -74,46 +74,45 @@ SwipeOut.prototype.resetState = function() {
 
  */
 
- // calculate the speed per frame
- SwipeOut.prototype.setupAnimation = function(event) {
-    // assuming 60fps get the distance per frame
-   this.velocity = this.distance / (this.duration / 16.666666667);
+// calculate the speed per frame
+SwipeOut.prototype.setupAnimation = function(event) {
+  // assuming 60fps get the distance per frame
+ this.velocity = this.distance / (this.duration / 16.666666667);
 
-   // run the animation if we're moving fast enough
-   return (this.velocity > 4) ? this.runAnimation() : this.resetState();
- };
+ // run the animation if we're moving fast enough
+ return (this.velocity > 4) ? this.runAnimation() : this.resetState();
+};
 
- // trigger the accellerated animation
- SwipeOut.prototype.runAnimation = function() {
-   var _this = this;
-   // if we've moved further than the width of the element
-   if (Math.abs(this.translateX) < (+this.elWidth*1.2) ) {
-     // accelerate and update position
-     this.velocity = this.velocity*1.15;
-     this.translateX = (this.direction === 'left') ? this.translateX - this.velocity : this.translateX + this.velocity;
+// trigger the accellerated animation
+SwipeOut.prototype.runAnimation = function() {
+ var _this = this;
+ // if we've moved further than the width of the element
+ if (Math.abs(this.translateX) < (+this.elWidth*1.2) ) {
+   // accelerate and update position
+   this.velocity = this.velocity*1.15;
+   this.translateX = (this.direction === 'left') ? this.translateX - this.velocity : this.translateX + this.velocity;
 
-     requestAnimationFrame(function() {
-       _this.runAnimation();
-       _this.update();
-     });
-   } else {
+   requestAnimationFrame(function() {
+     _this.runAnimation();
+     _this.update();
+   });
+ } else {
 
-     // remove styles set and run callback
-     this.resetState();
-     this.runCallback(this.completeCb);
+   // remove styles set and run callback
+   this.resetState();
+   this.runCallback(this.completeCb);
 
-   }
- };
+ }
+};
 
- // update the translate position
- SwipeOut.prototype.update = function() {
-   if (!this.canUpdate)
-     return;
+// update the translate position
+SwipeOut.prototype.update = function() {
+ if (!this.canUpdate)
+   return;
 
-   this.el.style.transform = 'translate3d(' + this.translateX + 'px,0,0)';
-   this.runCallback(this.updateCb);
- };
-
+ this.el.style.transform = 'translate3d(' + this.translateX + 'px,0,0)';
+ this.runCallback(this.updateCb);
+};
 
 
 /*
@@ -127,15 +126,15 @@ SwipeOut.prototype.resetState = function() {
 
 // touch start handler
 SwipeOut.prototype.begin = function(event) {
+  var touch = event.touches[0] ||
+              event.changedTouches[0];
+
   this.sliding = true;
   this.canUpdate = true;
   this.startTime = Date.now();
 
-  var touch = event.touches[0] ||
-              event.changedTouches[0];
-
   // this makes too many assumptions TODO : get body width
-  this.elWidth = +  this.el.getBoundingClientRect().width * 1.1;
+  this.elWidth = + this.el.getBoundingClientRect().width * 1.5;
   this.touchStartPositionX = touch.clientX;
 
   // Override any transition to ensure movement is smooth
@@ -176,13 +175,11 @@ SwipeOut.prototype.move = function(event) {
   this.translateX = touch.clientX - this.touchStartPositionX;
 
   if (this.checkHorizontal(touch) && this.sliding) {
-      requestAnimationFrame(function() {
-        _this.update();
-      });
-    }
-
+    requestAnimationFrame(function() {
+      _this.update();
+    });
+  }
 };
-
 
 
 /*
@@ -212,7 +209,6 @@ SwipeOut.prototype.listen = function() {
   this.el.addEventListener('touchmove', function(e) {
     this.move(event);
   }.bind(this), false);
-
 };
 
 // remove all the event listeners
