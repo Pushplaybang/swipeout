@@ -50,10 +50,10 @@ Commit titles should be 80 characters or shorter and additional descriptions sho
 If you think you've found a bug, or have a concern, check that its not already in the current issues, and then use the issue template if appropriate, if design/style related screenshots are helpful, and if it's a feature please describe it fully. If you're aware of who worked on the related functionality, mention them in the comments rather than assigning them.
 
 ### External contributors
-Contributers external to Nona Creative who work on private repositories can be added on the settings page of that repository rather than adding them to teams. This allows for much more fine-grained access control.
+Contributors external to Nona Creative who work on private repositories can be added on the settings page of that repository rather than adding them to teams. This allows for much more fine-grained access control.
 
 ### Versioning things
-When it's neccessary to use versioning we should follow the Semver pattern as discussed [here](http://semver.org/).
+When it's necessary to use versioning we should follow the Semver pattern as discussed [here](http://semver.org/).
 
 We using a three number system, e.g.: `1.2.3`:
 
